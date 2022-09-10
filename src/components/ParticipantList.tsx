@@ -1,5 +1,7 @@
+import { useParticipantsList } from "./state/hook/useParticipantsList";
+
 export const ParticipantList = () => {
-  const participants: string[] = [];
+  const participants: string[] = useParticipantsList();
 
   return (
     <ul>
