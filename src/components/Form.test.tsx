@@ -1,6 +1,7 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import Form from "./Form";
+import { RecoilRoot } from "recoil";
 
 test("When input is empty, new participants cannot be added.", () => {
   render(<Form />);
@@ -17,7 +18,11 @@ test("When input is empty, new participants cannot be added.", () => {
 });
 
 test("Add a participant if there is a name filled in.", () => {
-  render(<Form />);
+  render(
+    <RecoilRoot>
+      <Form />
+    </RecoilRoot>
+  );
 
   const input = screen.getByPlaceholderText(
     "Insira os nomes dos participantes"
