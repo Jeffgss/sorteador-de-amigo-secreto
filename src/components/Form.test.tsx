@@ -3,121 +3,125 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import Form from "./Form";
 import { RecoilRoot } from "recoil";
 
-test("When input is empty, new participants cannot be added.", () => {
-  render(
-    <RecoilRoot>
-      <Form />
-    </RecoilRoot>
-  );
+describe("Form.tsx behavior", () => {
+  test("When input is empty, new participants cannot be added.", () => {
+    render(
+      <RecoilRoot>
+        <Form />
+      </RecoilRoot>
+    );
 
-  const input = screen.getByPlaceholderText(
-    "Insira os nomes dos participantes"
-  );
+    const input = screen.getByPlaceholderText(
+      "Insira os nomes dos participantes"
+    );
 
-  const button = screen.getByRole("button");
+    const button = screen.getByRole("button");
 
-  expect(input).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
 
-  expect(button).toBeDisabled();
-});
-
-test("Add a participant if there is a name filled in.", () => {
-  render(
-    <RecoilRoot>
-      <Form />
-    </RecoilRoot>
-  );
-
-  const input = screen.getByPlaceholderText(
-    "Insira os nomes dos participantes"
-  );
-
-  const button = screen.getByRole("button");
-
-  fireEvent.change(input, {
-    target: {
-      value: "Ana Catarina",
-    },
+    expect(button).toBeDisabled();
   });
 
-  fireEvent.click(button);
+  test("Add a participant if there is a name filled in.", () => {
+    render(
+      <RecoilRoot>
+        <Form />
+      </RecoilRoot>
+    );
 
-  expect(input).toHaveFocus();
-  expect(input).toHaveValue("");
-});
+    const input = screen.getByPlaceholderText(
+      "Insira os nomes dos participantes"
+    );
 
-test("Duplicate names cannot be added to the list.", () => {
-  render(
-    <RecoilRoot>
-      <Form />
-    </RecoilRoot>
-  );
+    const button = screen.getByRole("button");
 
-  const input = screen.getByPlaceholderText(
-    "Insira os nomes dos participantes"
-  );
+    fireEvent.change(input, {
+      target: {
+        value: "Ana Catarina",
+      },
+    });
 
-  const button = screen.getByRole("button");
+    fireEvent.click(button);
 
-  fireEvent.change(input, {
-    target: {
-      value: "Ana Catarina",
-    },
+    expect(input).toHaveFocus();
+    expect(input).toHaveValue("");
   });
 
-  fireEvent.click(button);
+  test("Duplicate names cannot be added to the list.", () => {
+    render(
+      <RecoilRoot>
+        <Form />
+      </RecoilRoot>
+    );
 
-  fireEvent.change(input, {
-    target: {
-      value: "Ana Catarina",
-    },
+    const input = screen.getByPlaceholderText(
+      "Insira os nomes dos participantes"
+    );
+
+    const button = screen.getByRole("button");
+
+    fireEvent.change(input, {
+      target: {
+        value: "Ana Catarina",
+      },
+    });
+
+    fireEvent.click(button);
+
+    fireEvent.change(input, {
+      target: {
+        value: "Ana Catarina",
+      },
+    });
+
+    fireEvent.click(button);
+
+    const errorMessage = screen.getByRole("alert");
+    expect(errorMessage.textContent).toBe(
+      "Nomes duplicados não são permitidos!"
+    );
   });
 
-  fireEvent.click(button);
+  test("The error message should go away after the timers.", () => {
+    jest.useFakeTimers();
 
-  const errorMessage = screen.getByRole("alert");
-  expect(errorMessage.textContent).toBe("Nomes duplicados não são permitidos!");
-});
+    render(
+      <RecoilRoot>
+        <Form />
+      </RecoilRoot>
+    );
 
-test("The error message should go away after the timers.", () => {
-  jest.useFakeTimers();
+    const input = screen.getByPlaceholderText(
+      "Insira os nomes dos participantes"
+    );
 
-  render(
-    <RecoilRoot>
-      <Form />
-    </RecoilRoot>
-  );
+    const button = screen.getByRole("button");
 
-  const input = screen.getByPlaceholderText(
-    "Insira os nomes dos participantes"
-  );
+    fireEvent.change(input, {
+      target: {
+        value: "Ana Catarina",
+      },
+    });
 
-  const button = screen.getByRole("button");
+    fireEvent.click(button);
 
-  fireEvent.change(input, {
-    target: {
-      value: "Ana Catarina",
-    },
+    fireEvent.change(input, {
+      target: {
+        value: "Ana Catarina",
+      },
+    });
+
+    fireEvent.click(button);
+
+    let errorMessage = screen.queryByRole("alert");
+    expect(errorMessage).toBeInTheDocument();
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    errorMessage = screen.queryByRole("alert");
+
+    expect(errorMessage).toBeNull();
   });
-
-  fireEvent.click(button);
-
-  fireEvent.change(input, {
-    target: {
-      value: "Ana Catarina",
-    },
-  });
-
-  fireEvent.click(button);
-
-  let errorMessage = screen.queryByRole("alert");
-  expect(errorMessage).toBeInTheDocument();
-
-  act(() => {
-    jest.runAllTimers();
-  });
-
-  errorMessage = screen.queryByRole("alert");
-
-  expect(errorMessage).toBeNull();
 });
