@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
 import Footer from "./Footer";
 import { useParticipantsList } from "./state/hook/useParticipantsList";
@@ -14,7 +14,7 @@ const mockNavigate = jest.fn();
 
 jest.mock("react-router-dom", () => {
   return {
-    useNavigate: mockNavigate,
+    useNavigate: () => mockNavigate,
   };
 });
 
@@ -52,5 +52,20 @@ describe("When there are enough participants.", () => {
     const button = screen.getByRole("button");
 
     expect(button).not.toBeDisabled();
+  });
+
+  test("The joke has started.", () => {
+    render(
+      <RecoilRoot>
+        <Footer />
+      </RecoilRoot>
+    );
+
+    const button = screen.getByRole("button");
+
+    fireEvent.click(button);
+
+    expect(mockNavigate).toHaveBeenCalledTimes(1);
+    expect(mockNavigate).toHaveBeenCalledWith("/sorteio");
   });
 });
