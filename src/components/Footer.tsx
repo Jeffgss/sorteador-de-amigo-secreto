@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useParticipantsList } from "./state/hook/useParticipantsList";
+import "./Footer.css";
 
 const Footer = () => {
   const participants = useParticipantsList();
@@ -11,10 +12,15 @@ const Footer = () => {
   };
 
   return (
-    <footer>
-      <button onClick={start} disabled={participants.length < 3}>
+    <footer className="footer-config">
+      <button
+        className="button"
+        onClick={start}
+        disabled={participants.length < 3}
+      >
         Iniciar brincadeira
       </button>
+      <img src="/imagens/sacolas.png" alt="Sacolas de compras" />
     </footer>
   );
 };
