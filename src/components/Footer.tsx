@@ -1,14 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useParticipantsList } from "./state/hook/useParticipantsList";
+import { useRaffle } from "./state/hook/useRaffle";
 import "./Footer.css";
 
 const Footer = () => {
   const participants = useParticipantsList();
-
   const navigate = useNavigate();
+  const raffle = useRaffle();
 
   const start = () => {
+    raffle();
     navigate("/sorteio");
   };
 
