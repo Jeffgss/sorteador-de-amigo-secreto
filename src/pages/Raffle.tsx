@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import Card from "../components/Card";
 import { useParticipantsList } from "../components/state/hook/useParticipantsList";
 import { useResultRaffle } from "../components/state/hook/useResultRaffle";
+
+import "./Raffle.css";
 
 const Raffle = () => {
   const participants = useParticipantsList();
@@ -17,24 +20,35 @@ const Raffle = () => {
   };
 
   return (
-    <section>
-      <form onSubmit={raffle}>
-        <select
-          required
-          name="participantOfTheTime"
-          id="participantOfTheTime"
-          placeholder="Selecione o seu nome"
-          value={participantOfTheTime}
-          onChange={(event) => setParticipantOfTheTime(event.target.value)}
-        >
-          {participants.map((participant) => (
-            <option key={participant}>{participant}</option>
-          ))}
-        </select>
-        <button>Sortear</button>
-      </form>
-      {secretFriend && <p role={"alert"}>{secretFriend}</p>}
-    </section>
+    <Card>
+      <section className="raffle">
+        <h2>Quem vai tirar o papelzinho?</h2>
+        <form onSubmit={raffle}>
+          <select
+            required
+            name="participantOfTheTime"
+            id="participantOfTheTime"
+            placeholder="Selecione o seu nome"
+            value={participantOfTheTime}
+            onChange={(event) => setParticipantOfTheTime(event.target.value)}
+          >
+            {participants.map((participant) => (
+              <option key={participant}>{participant}</option>
+            ))}
+          </select>
+          <p>Clique em em sortear para ver quem é seu amigo secreto!</p>
+          <button className="button-raffle">Sortear</button>
+        </form>
+        {secretFriend && <p role={"alert"}>{secretFriend}</p>}
+        <footer className="raffle">
+          <img
+            src="/imagens/aviao.png"
+            className="airplane"
+            alt="Um desenho de um avião de papel"
+          />
+        </footer>
+      </section>
+    </Card>
   );
 };
 

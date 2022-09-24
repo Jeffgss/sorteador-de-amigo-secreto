@@ -15,7 +15,9 @@ const Form = () => {
     event.preventDefault();
     addToList(name);
     setName("");
-    inputRef.current?.focus();
+    if (inputRef.current != null) {
+      inputRef.current.focus();
+    }
   };
 
   return (
