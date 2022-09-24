@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useParticipantsList } from "./state/hook/useParticipantsList";
 import "./Footer.css";

@@ -1,3 +1,4 @@
+import React from "react";
 import { useParticipantsList } from "./state/hook/useParticipantsList";
 
 export const ParticipantList = () => {

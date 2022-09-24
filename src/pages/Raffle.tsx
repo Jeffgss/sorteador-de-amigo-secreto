@@ -1,3 +1,4 @@
+import React from "react";
 import { useParticipantsList } from "../components/state/hook/useParticipantsList";
 
 const Raffle = () => {
