@@ -32,6 +32,7 @@ const Raffle = () => {
             value={participantOfTheTime}
             onChange={(event) => setParticipantOfTheTime(event.target.value)}
           >
+            <option>Selecione seu nome</option>
             {participants.map((participant) => (
               <option key={participant}>{participant}</option>
             ))}

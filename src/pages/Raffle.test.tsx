@@ -40,7 +40,7 @@ describe("On the raffle page.", () => {
 
     const options = screen.queryAllByRole("option");
 
-    expect(options).toHaveLength(participants.length);
+    expect(options).toHaveLength(participants.length + 1);
   });
 
   test("The secret friend is displayed when prompted.", () => {
